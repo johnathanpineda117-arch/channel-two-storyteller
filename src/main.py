@@ -1,6 +1,6 @@
 story = "A man survives an unexpected bear attack."
 
-story_type = "nonfiction"
+story_type = "fiction"
 content_pillar = "unbelievable-survival"
 emotion = "shock-relief"
 
