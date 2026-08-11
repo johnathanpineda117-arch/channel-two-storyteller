@@ -8,3 +8,6 @@ print("Story:", story)
 print("Type:", story_type)
 print("Pillar:", content_pillar)
 print("Emotion:", emotion)
+
+if story_type == "nonfiction":
+    print("Action: This story requires factual verification.")
