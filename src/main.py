@@ -11,3 +11,5 @@ print("Emotion:", emotion)
 
 if story_type == "nonfiction":
     print("Action: This story requires factual verification.")
+else:
+    print("Action: Clearly identify this story as fictional.")
