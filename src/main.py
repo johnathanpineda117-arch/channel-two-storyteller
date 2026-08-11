@@ -1,6 +1,6 @@
 story_profile = {
     "story": "A man survives an unexpected bear attack.",
-    "type": "fiction",
+    "type": "nonfiction",
     "content_pillar": "unbelievable-survival",
     "emotion": "shock-relief"
 }
