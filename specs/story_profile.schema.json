@@ -29,7 +29,7 @@
     },
     "content_pillar": {
       "type": "string",
-      "description": "Content pillar or vertical (e.g., Human Stories, Unbelievable/Survival, Funny & Relatable)."
+      "description": "Content pillar or vertical (free-form string to allow discovery of new pillars)."
     },
     "story_category": {
       "type": "string",
@@ -47,7 +47,7 @@
     "story_structure": {
       "type": "string",
       "description": "High-level story structure or mode.",
-      "enum": ["HOOK_STORY_TWIST", "HOOK_ESCALATION_PAYOFF", "QUESTION_INVESTIGATION_ANSWER", "SITUATION_CONFLICT_RESOLUTION", "CURiosity_DISCOVERY_REVEAL", "SETUP_EVENT_REACTION", "PROBLEM_TRANSFORMATION_SATISFACTION", "CALM_TENSION_RELIEF"]
+      "enum": ["HOOK_STORY_TWIST", "HOOK_ESCALATION_PAYOFF", "QUESTION_INVESTIGATION_ANSWER", "SITUATION_CONFLICT_RESOLUTION", "CURIOSITY_DISCOVERY_REVEAL", "SETUP_EVENT_REACTION", "PROBLEM_TRANSFORMATION_SATISFACTION", "CALM_TENSION_RELIEF"]
     },
     "hook_type": {
       "type": "string",
@@ -103,8 +103,7 @@
     },
     "metadata": {
       "type": "object",
-      "description": "Free-form metadata for tags, experiment ids, or producer notes.
-",
+      "description": "Free-form metadata for tags, experiment ids, or producer notes.\n",
       "additionalProperties": true
     },
     "created_at": {"type": "string", "format": "date-time"},
