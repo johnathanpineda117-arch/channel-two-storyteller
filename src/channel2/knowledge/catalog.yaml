@@ -1,0 +1,96 @@
+version: 1
+
+# Structured extracts only. The markdown files remain the source of truth.
+content_pillars:
+  - id: human-stories
+    name: Human Stories
+    description: Human behavior, relationships, friendship, family, and social situations.
+    source: content-pillars.md#1-human-stories
+  - id: unbelievable-survival
+    name: Unbelievable / Survival
+    description: Verified survival, danger, animal encounters, and unusual real-world events.
+    source: content-pillars.md#2-unbelievable--survival
+  - id: funny-relatable
+    name: Funny & Relatable
+    description: Recognizable everyday situations that create humor and shared experience.
+    source: content-pillars.md#3-funny--relatable
+  - id: mystery-strange
+    name: Mystery / Strange
+    description: Verified mysteries, unusual facts, discoveries, and strange events.
+    source: content-pillars.md#4-mystery--strange
+  - id: satisfying-emotional
+    name: Satisfying / Emotional
+    description: Transformations and stories creating relief, warmth, or satisfaction.
+    source: content-pillars.md#5-satisfying--emotional
+
+hook_types:
+  - id: curiosity
+    name: Curiosity
+    description: Creates an information gap the story resolves.
+    source: hook-system.md#a-curiosity-hook
+  - id: unexpected-outcome
+    name: Unexpected Outcome
+    description: Establishes an expected result and then creates uncertainty.
+    source: hook-system.md#b-unexpected-outcome-hook
+  - id: question
+    name: Question
+    description: Opens with a direct question answered by the story.
+    source: hook-system.md#c-question-hook
+  - id: immediate-action
+    name: Immediate Action
+    description: Begins at the most interesting action before supplying context.
+    source: hook-system.md#d-immediate-action-hook
+  - id: emotional
+    name: Emotional
+    description: Immediately establishes a restrained emotional situation.
+    source: hook-system.md#e-emotional-hook
+  - id: relatable
+    name: Relatable
+    description: Creates honest recognition through a familiar situation.
+    source: hook-system.md#f-relatable-hook
+  - id: danger-survival
+    name: Danger / Survival
+    description: Establishes verified risk or danger immediately.
+    source: hook-system.md#g-danger--survival-hook
+  - id: transformation
+    name: Transformation
+    description: Creates anticipation around a visible before-and-after change.
+    source: hook-system.md#h-transformation-hook
+  - id: contradiction
+    name: Contradiction
+    description: Pairs apparently incompatible ideas to create curiosity.
+    source: hook-system.md#i-contradiction-hook
+  - id: quiet-curiosity
+    name: Quiet Curiosity
+    description: Uses subtle visual or narrative curiosity without high intensity.
+    source: hook-system.md#j-quiet-curiosity-hook
+
+story_modes:
+  - id: twist
+    name: Twist Story
+    description: Hook, context, escalation, and an earned twist.
+    source: story-engine.md#mode-a--twist-story
+  - id: survival
+    name: Survival Story
+    description: Hook, danger, escalation, and verified survival or relief.
+    source: story-engine.md#mode-b--survival-story
+  - id: emotional
+    name: Emotional Story
+    description: Hook, situation, emotional development, and payoff.
+    source: story-engine.md#mode-c--emotional-story
+  - id: funny
+    name: Funny Story
+    description: Hook, relatable situation, escalation, and comedic payoff.
+    source: story-engine.md#mode-d--funny-story
+  - id: mystery-discovery
+    name: Mystery / Discovery
+    description: Hook, question, evidence or clues, and a supported reveal.
+    source: story-engine.md#mode-e--mystery--discovery
+  - id: transformation
+    name: Transformation
+    description: Before, process, escalation, and visible transformation.
+    source: story-engine.md#mode-f--transformation
+  - id: calm-relief
+    name: Calm / Relief
+    description: Curiosity or tension develops toward relief or peace.
+    source: story-engine.md#mode-g--calm--relief
