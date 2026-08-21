@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StoryProfile",
+  "description": "Structured contract describing a story candidate / canonical story profile used throughout the storytelling pipeline.",
+  "type": "object",
+  "required": ["story_id", "title", "classification", "content_pillar", "story_structure", "visual_format"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version.",
+      "default": "1.0"
+    },
+    "story_id": {
+      "type": "string",
+      "description": "Unique identifier for the story (immutable)."
+    },
+    "title": {
+      "type": "string",
+      "description": "Short human-readable title for the story."
+    },
+    "summary": {
+      "type": "string",
+      "description": "One- or two-line summary of the story concept."
+    },
+    "classification": {
+      "type": "string",
+      "description": "High-level classification of the story.",
+      "enum": ["FICTION", "NONFICTION", "REALITY_INSPIRED"]
+    },
+    "content_pillar": {
+      "type": "string",
+      "description": "Content pillar or vertical (e.g., Human Stories, Unbelievable/Survival, Funny & Relatable)."
+    },
+    "story_category": {
+      "type": "string",
+      "description": "More specific category or theme (e.g., survival, mystery, transformation)."
+    },
+    "emotional_target": {
+      "type": "array",
+      "description": "Primary intended emotional reactions for viewers.",
+      "items": {
+        "type": "string",
+        "enum": ["AMUSEMENT", "SHOCK", "EMOTION", "CURIOSITY", "SURPRISE", "RELIEF", "GRATITUDE", "WARMTH", "SATISFACTION"]
+      },
+      "minItems": 1
+    },
+    "story_structure": {
+      "type": "string",
+      "description": "High-level story structure or mode.",
+      "enum": ["HOOK_STORY_TWIST", "HOOK_ESCALATION_PAYOFF", "QUESTION_INVESTIGATION_ANSWER", "SITUATION_CONFLICT_RESOLUTION", "CURiosity_DISCOVERY_REVEAL", "SETUP_EVENT_REACTION", "PROBLEM_TRANSFORMATION_SATISFACTION", "CALM_TENSION_RELIEF"]
+    },
+    "hook_type": {
+      "type": "string",
+      "description": "Primary hook category to be used.",
+      "enum": ["CURIOSITY", "UNEXPECTED_OUTCOME", "QUESTION", "IMMEDIATE_ACTION", "EMOTIONAL", "RELATABLE", "DANGER_SURVIVAL", "TRANSFORMATION", "CONTRADICTION", "QUIET_CURIOSITY", "OTHER"]
+    },
+    "visual_format": {
+      "type": "string",
+      "description": "Preferred or candidate visual format(s) for production. Not limited to Roblox.",
+      "enum": ["ROBLOX", "REAL_FOOTAGE", "CINEMATIC", "AI_GENERATED", "ANIMATION", "GAMEPLAY", "NATURE", "ANIMAL", "OTHER"]
+    },
+    "visual_format_alternatives": {
+      "type": "array",
+      "description": "Optional list of alternate visual formats to test or fallback to.",
+      "items": {"type": "string"}
+    },
+    "narration_style": {
+      "type": "object",
+      "description": "Narration voice/style metadata.",
+      "properties": {
+        "voice_id": {"type": "string", "description": "Optional voice identifier (TTS or human)."},
+        "perspective": {"type": "string", "enum": ["FIRST_PERSON", "THIRD_PERSON", "OMNISCIENT", "SECOND_PERSON", "OTHER"]},
+        "tone": {"type": "string", "description": "Tone (e.g., deadpan, energetic, empathetic)."},
+        "speed": {"type": "string", "enum": ["SLOW", "MODERATE", "FAST", "VARIABLE"]}
+      }
+    },
+    "target_audience": {
+      "type": "object",
+      "description": "Audience metadata (demographics, interest tags, languages).",
+      "properties": {
+        "languages": {"type": "array", "items": {"type": "string"}},
+        "age_range": {"type": "string"},
+        "interests": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "research_status": {
+      "type": "string",
+      "description": "Verification / research status (applies primarily to nonfiction).",
+      "enum": ["UNVERIFIED", "RESEARCHING", "PARTIALLY_VERIFIED", "VERIFIED", "REJECTED"]
+    },
+    "research_report_id": {
+      "type": "string",
+      "description": "Optional reference to a research report or record."
+    },
+    "confidence": {
+      "type": "object",
+      "description": "Optional confidence scores produced by modules.",
+      "properties": {
+        "research_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "hook_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "story_quality": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Free-form metadata for tags, experiment ids, or producer notes.
+",
+      "additionalProperties": true
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
