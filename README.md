@@ -270,3 +270,31 @@ The objective is not to maximize output blindly.
 The objective is to discover repeatable formats that produce strong viewer response and then scale the formats supported by evidence.
 
 Quality → Testing → Data → Learning → Scale
+
+---
+
+## 14. Phase 1 Foundation
+
+The repository now includes a local, testable Python foundation. It validates
+structured story records, loads the documented content pillars, hook types, and
+story modes, and enforces ordered pipeline stage gates.
+
+Install and verify it with Python 3.11 or newer:
+
+```bash
+python -m pip install -e ".[dev]"
+python -m pytest
+python src/main.py
+python -m channel2.main --status
+```
+
+Validate a local JSON story profile with:
+
+```bash
+python -m channel2.main --input path/to/story.json
+```
+
+This phase does not research, generate scripts or media, run media quality
+control, integrate external APIs, or publish. The automated state machine ends
+at `DRAFT_READY_FOR_HUMAN`; it deliberately has no publishing operation. See
+[STATUS.md](STATUS.md) for the capability ledger.
