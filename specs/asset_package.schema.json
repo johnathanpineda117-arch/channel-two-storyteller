@@ -1,0 +1,203 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AssetPackage",
+  "description": "Schema describing an asset or a package of assets associated with a story and production. Includes provenance, simplified licensing and quality/authenticity metadata.",
+  "type": "object",
+  "required": [
+    "asset_id",
+    "story_id",
+    "asset_type",
+    "visual_format",
+    "provider",
+    "source"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "default": "1.0",
+      "description": "Schema version."
+    },
+    "asset_id": {
+      "type": "string",
+      "description": "Unique identifier for this asset (string)."
+    },
+    "story_id": {
+      "type": "string",
+      "description": "Reference to the related StoryProfile.story_id."
+    },
+    "asset_type": {
+      "type": "string",
+      "description": "Type of asset.",
+      "enum": [
+        "VIDEO_CLIP",
+        "IMAGE",
+        "AUDIO_TRACK",
+        "NARRATION",
+        "TRANSITION",
+        "MUSIC",
+        "SOUND_EFFECT",
+        "ANIMATION_FILE",
+        "MODEL",
+        "OTHER"
+      ]
+    },
+    "visual_format": {
+      "type": "string",
+      "description": "Visual format the asset corresponds to.",
+      "enum": [
+        "ROBLOX",
+        "REAL_FOOTAGE",
+        "CINEMATIC",
+        "AI_GENERATED",
+        "ANIMATION",
+        "GAMEPLAY",
+        "NATURE",
+        "ANIMAL",
+        "OTHER"
+      ]
+    },
+    "provider": {
+      "type": "object",
+      "description": "Provider or source system that supplied the asset.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Provider name (e.g., 'stock_service', 'roblox_capture', 'ai_image_service')."
+        },
+        "provider_id": {
+          "type": "string",
+          "description": "Provider-specific identifier for the asset (if available)."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "description": "Provenance details and canonical URL/location for the asset.",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "original_filename": {
+          "type": "string"
+        },
+        "capture_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "original_creator": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "license": {
+      "type": "object",
+      "description": "Simplified licensing information.",
+      "properties": {
+        "license_type": {
+          "type": "string",
+          "description": "e.g., 'CC0', 'CC-BY', 'RoyaltyFree', 'OWNED', 'UNKNOWN'."
+        },
+        "commercial_use": {
+          "type": "boolean",
+          "description": "Is commercial use permitted?"
+        },
+        "attribution_required": {
+          "type": "boolean"
+        },
+        "license_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "authenticity": {
+      "type": "string",
+      "description": "Assessment of whether the asset is authentic footage, recreated, AI-generated, stock, or unknown.",
+      "enum": [
+        "AUTHENTIC",
+        "RECREATED",
+        "AI_GENERATED",
+        "STOCK",
+        "UNKNOWN"
+      ]
+    },
+    "generation_status": {
+      "type": "string",
+      "description": "If generated, indicates generation details.",
+      "enum": [
+        "NATIVE",
+        "GENERATED_AUTOMATED",
+        "GENERATED_HUMAN_ASSISTED",
+        "EXTRACTED",
+        "UNKNOWN"
+      ]
+    },
+    "quality": {
+      "type": "object",
+      "description": "Quality assessments and technical metadata.",
+      "properties": {
+        "resolution": {
+          "type": "string",
+          "description": "e.g., '1080x1920' or '4K'."
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "bitrate_kbps": {
+          "type": "number",
+          "minimum": 0
+        },
+        "passes_qc": {
+          "type": "boolean"
+        },
+        "quality_notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Automated confidence (0..1) that provenance/licensing/authenticity is correct."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Arbitrary extra metadata (asset fingerprint, storage path, checksums).",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
