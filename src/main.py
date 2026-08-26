@@ -1,17 +1,7 @@
-story_profile = {
-    "story": "A man survives an unexpected bear attack.",
-    "type": "nonfiction",
-    "content_pillar": "unbelievable-survival",
-    "emotion": "shock-relief"
-}
+"""Compatibility wrapper for the packaged Channel 2 CLI."""
 
-print("STORY PROFILE")
-print("Story:", story_profile["story"])
-print("Type:", story_profile["type"])
-print("Pillar:", story_profile["content_pillar"])
-print("Emotion:", story_profile["emotion"])
+from channel2.main import main
 
-if story_profile["type"] == "nonfiction":
-    print("Action: This story requires factual verification.")
-else:
-    print("Action: Clearly identify this story as fictional.")
+
+if __name__ == "__main__":
+    raise SystemExit(main())
