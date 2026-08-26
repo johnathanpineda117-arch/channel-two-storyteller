@@ -1,9 +1,10 @@
 {
+  "channel_id": "robloxtales",
   "story_id": "STORY-FIXTURE-1",
-  "title": "The door in the forest",
-  "premise": "A fictional hiker finds an impossible door.",
+  "title": "The door nobody built",
+  "premise": "Two friends find a door that was not in the game yesterday.",
   "classification": "fiction",
-  "content_pillar": "mystery-strange",
+  "content_pillar": "mystery",
   "story_mode": "mystery-discovery",
   "emotions": ["curiosity"],
   "verification_status": "not-required"

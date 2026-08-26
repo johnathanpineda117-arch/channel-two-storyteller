@@ -2,6 +2,7 @@
 
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -38,6 +39,15 @@ def test_installed_wheel_cli_from_outside_repo(tmp_path: Path) -> None:
 
     wheels = sorted(dist.glob("channel2_content_agent-*.whl"))
     assert wheels, "expected the project wheel in the build output"
+
+    # Packaged data resolves from the installed package, so a resource missing
+    # from the wheel only fails once the CLI runs outside a source checkout.
+    with zipfile.ZipFile(wheels[-1]) as wheel:
+        shipped = set(wheel.namelist())
+    for resource in ("catalog.yaml", "channels.yaml"):
+        assert f"channel2/knowledge/{resource}" in shipped, (
+            f"{resource} is missing from the wheel"
+        )
 
     subprocess.run([sys.executable, "-m", "venv", str(venv)], check=True)
     pip = venv / ("Scripts" if sys.platform == "win32" else "bin") / "pip"

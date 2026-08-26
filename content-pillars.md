@@ -1,5 +1,14 @@
 # Channel 2 — Content Pillars
 
+> **Legacy direction.** These five pillars belong to the original broad
+> nonfiction storytelling definition of Channel 2, now registered as the
+> retired `legacy-storyteller` channel. Current Channel 2 is RobloxTales /
+> Block Tales, whose pillars are defined in [channels.md](channels.md).
+>
+> This document is preserved because these definitions remain the authoritative
+> meaning of the legacy pillar terms, which historical records still use and
+> which the knowledge catalog still cites. No active channel may use them.
+
 These five pillars define the initial content universe for Channel 2.
 
 They are not permanent assumptions.

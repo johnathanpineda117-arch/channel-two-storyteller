@@ -1,0 +1,55 @@
+version: 1
+
+# Channel configuration is the isolation boundary for pillars and verification
+# policy. channels.md defines these channels; this file encodes them.
+#
+# Listing a pillar here is the only thing that makes it usable by a channel.
+# Being defined in catalog.yaml grants nothing on its own.
+#
+# Channels in the wider portfolio whose authoritative taxonomy has not been
+# defined here (MoneyPlayBook, the Bible-focused channel, Channel 4, the
+# scenery-view channel) are deliberately absent rather than guessed at.
+channels:
+  - channel_id: robloxtales
+    name: RobloxTales / Block Tales
+    source: channels.md#robloxtales-block-tales
+    active: true
+    pillars:
+      - friendship
+      - betrayal
+      - mystery
+      - fear
+      - humor
+      - robux
+      - unexpected-twist
+      - survival
+      - social-conflict
+      - perspective-conflict
+    verification_policy:
+      # Invented in-game stories that make no factual claims. Nothing this
+      # channel publishes needs verified research.
+      allowed_classifications:
+        - fiction
+        - reality-inspired
+      verification_required_for: []
+
+  - channel_id: legacy-storyteller
+    name: Legacy Broad Storyteller
+    source: channels.md#legacy-broad-storyteller
+    # Inactive: retained for historical interpretation and as the regression
+    # baseline for the previous verification behavior. Not for new content.
+    active: false
+    pillars:
+      - human-stories
+      - unbelievable-survival
+      - funny-relatable
+      - mystery-strange
+      - satisfying-emotional
+    verification_policy:
+      # The behavior that used to be applied globally to every story.
+      allowed_classifications:
+        - nonfiction
+        - fiction
+        - reality-inspired
+      verification_required_for:
+        - nonfiction

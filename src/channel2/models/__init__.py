@@ -1,5 +1,6 @@
 """Validated data contracts shared between pipeline stages."""
 
+from channel2.models.channel import Channel, VerificationPolicy
 from channel2.models.story import (
     ApprovalStatus,
     Claim,
@@ -24,6 +25,7 @@ from channel2.models.vocabulary import (
 
 __all__ = [
     "ApprovalStatus",
+    "Channel",
     "Claim",
     "Confidence",
     "ContentPillar",
@@ -38,6 +40,7 @@ __all__ = [
     "StoryRecord",
     "StoryStructure",
     "Tempo",
+    "VerificationPolicy",
     "VerificationStatus",
     "VisualFormat",
 ]

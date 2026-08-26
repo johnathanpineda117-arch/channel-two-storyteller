@@ -9,8 +9,11 @@ describe intent; they do not make a capability implemented.
 - `StoryRecord` validation and JSON serialization
 - Structured knowledge catalog loading
 - Controlled vocabulary kept in sync with its documentation, in both directions
+- Channel registry loading and fail-closed channel resolution
+- Channel-scoped pillar and verification validation on `StoryRecord`
 - Explicit pipeline stage transitions and terminal human-review state
-- CLI validation of story profiles and classification guidance
+- Retired channels blocked from production while staying readable
+- CLI validation of story profiles and channel-scoped verification guidance
 
 ## IMPLEMENTED
 
@@ -96,16 +99,33 @@ records). `StoryStructure` is intentionally not a `StoryRecord` field.
 before `StoryStructure` becomes a first-class experimental variable. This
 branch does not invent a replacement taxonomy.
 
-## Known divergence
+## Channel isolation
 
-`README.md` and `content-pillars.md` describe Channel 2 as a broad nonfiction
-storytelling channel. The channel is actually RobloxTales / Block Tales, which
-publishes fictional Roblox stories to a younger short-form audience and uses a
-different pillar taxonomy. The `ContentPillar` enum and the design documents
-still reflect the older description.
+Channel 2 is **RobloxTales / Block Tales**: fictional Roblox stories for a
+younger short-form audience. The broad nonfiction storytelling definition in
+`README.md` and `content-pillars.md` is the **legacy** direction, registered as
+the retired `legacy-storyteller` channel.
 
-This is a known, accepted divergence on this branch. The next Channel
-milestone will move pillars and verification policy into per-channel
-configuration. No real Roblox data should be entered before that milestone
-lands; the current required pillar enum cannot represent the actual channel
-without misclassification.
+The divergence previously recorded here is resolved. Pillars and verification
+are no longer global:
+
+- A record names its channel with a required `channel_id`. There is no default
+  channel, and an unrecognised one is rejected rather than substituted.
+- `ContentPillar` is the shared vocabulary of documented pillar terms. Being in
+  the enum grants nothing; a record's pillar must be listed by the channel it
+  names. Legacy pillars are reachable only from the legacy channel.
+- Whether verification is required is read from the selected channel's policy.
+  The rule that used to be global — nonfiction must be verified — is now the
+  legacy channel's configured value, so the old behavior stays reproducible and
+  the research machinery in `research-authenticity.md` is untouched.
+- `active: false` means retired from production, not invalid history. Records
+  on a retired channel still load and validate against that channel's own
+  taxonomy and policy; the pipeline is what refuses to advance them.
+
+Channels are defined in `channels.md` and encoded in
+`src/channel2/knowledge/channels.yaml`. Only `robloxtales` and
+`legacy-storyteller` are registered. MoneyPlayBook, the Bible-focused channel,
+Channel 4, and the scenery-view channel are real and separate but have no
+authoritative taxonomy defined here, so they are deliberately absent rather
+than guessed at. A documented pillar term may exist before any channel
+activates it; vocabulary does not force product configuration.

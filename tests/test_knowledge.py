@@ -1,9 +1,7 @@
 """Knowledge catalog tests."""
 
 import inspect
-import re
 from enum import StrEnum
-from pathlib import Path
 
 import pytest
 import yaml
@@ -11,35 +9,7 @@ import yaml
 from channel2.knowledge import load_catalog
 from channel2.knowledge.loader import COLLECTION_ENUMS, KnowledgeCatalog
 from channel2.models import vocabulary as vocabulary_module
-
-_HEADING_RE = re.compile(r"^(#{1,6})\s+(.+)$")
-_REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
-
-
-def github_heading_slug(heading: str) -> str:
-    """Match GitHub heading anchors.
-
-    GitHub replaces each whitespace character after stripping punctuation and
-    emoji, so a removed emoji or slash leaves a double dash rather than a
-    collapsed single hyphen.
-    """
-
-    text = heading.lstrip("#").strip().lower()
-    text = re.sub(r"[^\w\s-]", "", text, flags=re.UNICODE)
-    return re.sub(r"\s", "-", text)
-
-
-def headings_in(path: Path) -> set[str]:
-    seen: dict[str, int] = {}
-    slugs: set[str] = set()
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if not _HEADING_RE.match(line):
-            continue
-        slug = github_heading_slug(line)
-        count = seen.get(slug, 0)
-        seen[slug] = count + 1
-        slugs.add(slug if count == 0 else f"{slug}-{count}")
-    return slugs
+from helpers import REPOSITORY_ROOT, headings_in
 
 
 def test_every_collection_matches_its_enum() -> None:
@@ -80,7 +50,7 @@ def test_catalog_entries_link_to_design_docs() -> None:
             assert separator and document.endswith(".md") and anchor, (
                 f"{collection}/{entry.id} citation is not a markdown heading anchor"
             )
-            source_path = _REPOSITORY_ROOT / document
+            source_path = REPOSITORY_ROOT / document
             assert source_path.is_file(), (
                 f"{collection}/{entry.id} cites missing file {document}"
             )

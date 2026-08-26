@@ -1,9 +1,15 @@
-version: 2
+version: 3
 
 # Structured extracts only. The markdown files remain the source of truth.
 # Every entry must cite the section that defines it; knowledge.loader enforces
 # that these collections stay identical to the enums in models/vocabulary.py.
+
+# The shared vocabulary of pillar terms across every channel. This list does
+# not grant any channel the right to use a term: channels.yaml decides which
+# terms each channel may actually use.
 content_pillars:
+  # Legacy broad-storyteller taxonomy; reachable only from the inactive legacy
+  # channel.
   - id: human-stories
     name: Human Stories
     description: Human behavior, relationships, friendship, family, and social situations.
@@ -24,6 +30,47 @@ content_pillars:
     name: Satisfying / Emotional
     description: Transformations and stories creating relief, warmth, or satisfaction.
     source: content-pillars.md#5--satisfying--emotional
+  # RobloxTales / Block Tales taxonomy.
+  - id: friendship
+    name: Friendship
+    description: Loyalty, trust, and closeness between characters, and how bonds are tested.
+    source: channels.md#friendship
+  - id: betrayal
+    name: Betrayal
+    description: A character breaks trust, changes sides, or exploits a relationship.
+    source: channels.md#betrayal
+  - id: mystery
+    name: Mystery
+    description: An unexplained situation inside the fictional world that demands an answer.
+    source: channels.md#mystery
+  - id: fear
+    name: Fear
+    description: Threat, dread, or being hunted, at an intensity suited to a younger audience.
+    source: channels.md#fear
+  - id: humor
+    name: Humor
+    description: Comedy from character behavior and absurd situations inside the game world.
+    source: channels.md#humor
+  - id: robux
+    name: Robux
+    description: Stories driven by earning, losing, spending, or being scammed out of in-game currency.
+    source: channels.md#robux
+  - id: unexpected-twist
+    name: Unexpected Twist
+    description: The story reverses the meaning of what came before.
+    source: channels.md#unexpected-twist
+  - id: survival
+    name: Survival
+    description: Staying alive against a fictional in-game threat.
+    source: channels.md#survival
+  - id: social-conflict
+    name: Social Conflict
+    description: Friction between characters or groups over exclusion, rivalry, status, or pressure.
+    source: channels.md#social-conflict
+  - id: perspective-conflict
+    name: Perspective Conflict
+    description: The same events understood differently by two characters.
+    source: channels.md#perspective-conflict
 
 hook_types:
   - id: curiosity
