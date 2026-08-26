@@ -11,13 +11,10 @@ import pytest
 import yaml
 from pydantic import ValidationError
 
-from channel2.knowledge import UnknownChannelError, load_channels
+from channel2.knowledge import UnknownChannelError, load_catalog, load_channels
 from channel2.models import Channel, ContentPillar, StoryClassification
 from channel2.models.channel import VerificationPolicy
-
-from test_knowledge import headings_in
-
-_REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+from helpers import REPOSITORY_ROOT, citation_resolves, headings_in
 
 _LEGACY_PILLARS = {
     ContentPillar.HUMAN_STORIES,
@@ -79,15 +76,22 @@ def test_no_active_channel_can_reach_a_legacy_pillar() -> None:
             assert not channel.pillars & _LEGACY_PILLARS, channel.channel_id
 
 
-def test_every_defined_pillar_term_belongs_to_a_channel() -> None:
-    claimed: set[ContentPillar] = set()
-    for channel in load_channels().channels:
-        claimed |= set(channel.pillars)
+def test_every_channel_pillar_is_documented_vocabulary() -> None:
+    # The forward direction only. A documented pillar may legitimately exist
+    # before any channel activates it, exactly like staged vocabulary
+    # elsewhere; vocabulary must not force product configuration.
+    documented = {entry.id: entry for entry in load_catalog().content_pillars}
 
-    assert claimed == set(ContentPillar), (
-        "unclaimed pillar terms: "
-        + ", ".join(sorted(set(ContentPillar) - claimed))
-    )
+    for channel in load_channels().channels:
+        for pillar in channel.pillars:
+            entry = documented.get(pillar.value)
+            assert entry is not None, (
+                f"{channel.channel_id} uses undocumented pillar {pillar.value}"
+            )
+            assert citation_resolves(entry.source), (
+                f"{channel.channel_id} uses pillar {pillar.value}, whose "
+                f"citation {entry.source} does not resolve"
+            )
 
 
 def test_verification_requirements_are_channel_specific() -> None:
@@ -154,7 +158,7 @@ def test_channel_definitions_cite_design_docs() -> None:
         assert separator and document.endswith(".md") and anchor, (
             f"{channel.channel_id} citation is not a markdown heading anchor"
         )
-        source_path = _REPOSITORY_ROOT / document
+        source_path = REPOSITORY_ROOT / document
         assert source_path.is_file(), (
             f"{channel.channel_id} cites missing file {document}"
         )

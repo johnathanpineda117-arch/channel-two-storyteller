@@ -2,7 +2,14 @@
 
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    HttpUrl,
+    ValidationInfo,
+    model_validator,
+)
 
 from channel2.models.vocabulary import EmotionalTarget, HookType
 
@@ -119,11 +126,18 @@ class HookOption(BaseModel):
 
 
 class StoryRecord(BaseModel):
-    """Versioned shared contract; unfinished fields remain explicitly empty."""
+    """Versioned shared contract; unfinished fields remain explicitly empty.
+
+    A record carries its channel's stable id, not the channel configuration
+    itself, so a channel's pillars or policy can change without rewriting
+    history. The rules a record is held to are whichever ones its channel
+    defines at validation time.
+    """
 
     model_config = ConfigDict(extra="forbid", use_enum_values=False)
 
-    schema_version: str = "1.0"
+    schema_version: str = "2.0"
+    channel_id: str = Field(pattern=r"^[a-z0-9]+(-[a-z0-9]+)*$")
     story_id: str = Field(pattern=r"^STORY-[A-Z0-9][A-Z0-9-]*$")
     title: str = Field(min_length=1)
     premise: str = Field(min_length=1)
@@ -153,21 +167,56 @@ class StoryRecord(BaseModel):
     lessons: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def validate_classification_rules(self) -> "StoryRecord":
-        if (
-            self.classification == StoryClassification.NONFICTION
-            and self.verification_status == VerificationStatus.NOT_REQUIRED
-        ):
-            raise ValueError("nonfiction cannot use verification status 'not-required'")
-        if (
-            self.classification != StoryClassification.NONFICTION
-            and self.verification_status
-            not in {VerificationStatus.NOT_REQUIRED, VerificationStatus.REJECTED}
-        ):
-            raise ValueError(
-                "fiction and reality-inspired stories use 'not-required' "
-                "unless they are rejected"
-            )
+    def validate_selected_hook_was_offered(self) -> "StoryRecord":
         if self.selected_hook and self.selected_hook not in self.hook_options:
             raise ValueError("selected_hook must be present in hook_options")
+        return self
+
+    @model_validator(mode="after")
+    def validate_against_selected_channel(self, info: ValidationInfo) -> "StoryRecord":
+        """Hold the record to its own channel's pillars and truth policy.
+
+        A retired channel still validates its historical records; only
+        production advancement is blocked, which the pipeline enforces.
+        """
+
+        # Deferred: the registry depends on this module's vocabulary, so
+        # importing it at module scope would be circular.
+        from channel2.knowledge.channels import resolve_channel
+
+        channel = resolve_channel(self.channel_id, info.context)
+
+        if not channel.allows_pillar(self.content_pillar):
+            permitted = ", ".join(sorted(pillar.value for pillar in channel.pillars))
+            raise ValueError(
+                f"channel '{channel.channel_id}' does not define the pillar "
+                f"'{self.content_pillar.value}'; it defines {permitted}"
+            )
+
+        policy = channel.verification_policy
+        if not policy.allows(self.classification):
+            published = ", ".join(
+                sorted(item.value for item in policy.allowed_classifications)
+            )
+            raise ValueError(
+                f"channel '{channel.channel_id}' does not publish "
+                f"'{self.classification.value}' stories; it publishes {published}"
+            )
+
+        if policy.requires_verification(self.classification):
+            if self.verification_status == VerificationStatus.NOT_REQUIRED:
+                raise ValueError(
+                    f"channel '{channel.channel_id}' requires verification for "
+                    f"'{self.classification.value}' stories, so "
+                    f"'not-required' is not an acceptable status"
+                )
+        elif self.verification_status not in {
+            VerificationStatus.NOT_REQUIRED,
+            VerificationStatus.REJECTED,
+        }:
+            raise ValueError(
+                f"channel '{channel.channel_id}' does not require verification "
+                f"for '{self.classification.value}' stories, so they use "
+                f"'not-required' unless they are rejected"
+            )
         return self

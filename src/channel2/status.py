@@ -17,6 +17,8 @@ CAPABILITIES: dict[str, CapabilityStatus] = {
     "configuration": CapabilityStatus.TESTED,
     "story_record_schema": CapabilityStatus.TESTED,
     "knowledge_catalog": CapabilityStatus.TESTED,
+    "channel_registry": CapabilityStatus.TESTED,
+    "channel_scoped_validation": CapabilityStatus.TESTED,
     "pipeline_stage_gates": CapabilityStatus.TESTED,
     "profile_cli": CapabilityStatus.TESTED,
     "research_and_trend_intelligence": CapabilityStatus.PLANNED,

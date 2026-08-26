@@ -29,5 +29,6 @@ packages = ["src/channel2"]
 addopts = "-q"
 testpaths = ["tests"]
 # Import from the source tree directly so a clean checkout can run the suite
-# without an editable install step.
-pythonpath = ["src"]
+# without an editable install step. "tests" makes tests/helpers.py importable
+# without relying on pytest's implicit sys.path insertion.
+pythonpath = ["src", "tests"]

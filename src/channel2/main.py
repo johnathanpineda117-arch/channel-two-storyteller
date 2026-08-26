@@ -7,38 +7,36 @@ from typing import Any, Sequence
 
 from pydantic import ValidationError
 
-from channel2.knowledge import load_catalog
-from channel2.models import StoryClassification, StoryRecord
+from channel2.knowledge import default_registry, load_catalog
+from channel2.models import Channel, StoryRecord
 from channel2.pipeline import Pipeline
 from channel2.status import capability_rows
 
 
 EXAMPLE_PROFILE: dict[str, Any] = {
+    "channel_id": "robloxtales",
     "story_id": "STORY-001",
-    "title": "An unexpected bear encounter",
-    "premise": "A man survives an unexpected bear attack.",
-    "classification": "nonfiction",
-    "content_pillar": "unbelievable-survival",
-    "story_mode": "survival",
-    "emotions": ["shock", "relief"],
-    "verification_status": "unverified",
+    "title": "The friend who took the Robux",
+    "premise": "A player lends their savings to a friend who does not give it back.",
+    "classification": "fiction",
+    "content_pillar": "robux",
+    "story_mode": "twist",
+    "emotions": ["surprise", "emotion"],
+    "verification_status": "not-required",
 }
 
 
-def classification_guidance(record: StoryRecord) -> str:
-    if record.classification == StoryClassification.NONFICTION:
+def verification_guidance(record: StoryRecord, channel: Channel) -> str:
+    if channel.verification_policy.requires_verification(record.classification):
         return (
-            "PAUSE: This nonfiction story requires reliable sources and human "
-            "verification before research can be marked complete."
-        )
-    if record.classification == StoryClassification.REALITY_INSPIRED:
-        return (
-            "REVIEW: Keep the story distinct from any specific unverified real "
-            "event and label it when viewers could mistake it for fact."
+            f"PAUSE: Channel '{channel.channel_id}' requires reliable sources "
+            f"and human verification for {record.classification.value} stories "
+            "before research can be marked complete."
         )
     return (
-        "REVIEW: Treat this story as fiction and label it when viewers could "
-        "reasonably mistake it for a real event."
+        f"REVIEW: Channel '{channel.channel_id}' does not require factual "
+        f"verification for {record.classification.value} stories. Label the "
+        "story when viewers could reasonably mistake it for a real event."
     )
 
 
@@ -80,16 +78,29 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 1
 
     try:
+        registry = default_registry()
+    except (OSError, ValueError) as error:
+        print(f"CHANNEL REGISTRY ERROR: {error}")
+        return 1
+
+    try:
         record = StoryRecord.model_validate(load_profile(args.input))
     except (OSError, json.JSONDecodeError, ValidationError, ValueError) as error:
         print(f"INVALID STORY PROFILE: {error}")
         return 2
 
-    pipeline = Pipeline(record=record)
+    channel = registry.get(record.channel_id)
+    pipeline = Pipeline(record=record, channel=channel)
     print(record.model_dump_json(indent=2))
     print(f"Knowledge catalog: {catalog.version}")
+    print(f"Channel: {channel.name} ({channel.channel_id})")
+    if not channel.active:
+        print(
+            "RETIRED CHANNEL: this record stays readable for history, but it "
+            "cannot enter production."
+        )
     print(f"Pipeline stage: {pipeline.stage.value}")
-    print(classification_guidance(record))
+    print(verification_guidance(record, channel))
     print("Publishing: NOT IMPLEMENTED; explicit human approval is mandatory.")
     return 0
 
