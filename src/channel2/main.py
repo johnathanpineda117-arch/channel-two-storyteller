@@ -20,6 +20,7 @@ EXAMPLE_PROFILE: dict[str, Any] = {
     "classification": "nonfiction",
     "content_pillar": "unbelievable-survival",
     "story_mode": "survival",
+    "story_structure": "calm-tension-relief",
     "emotions": ["shock", "relief"],
     "verification_status": "unverified",
 }

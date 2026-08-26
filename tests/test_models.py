@@ -3,7 +3,7 @@
 import pytest
 from pydantic import ValidationError
 
-from channel2.models import HookOption, StoryRecord
+from channel2.models import HookOption, StoryRecord, StoryStructure
 
 
 def test_story_record_round_trip(fiction_record: StoryRecord) -> None:
@@ -51,3 +51,54 @@ def test_selected_hook_must_be_an_option(fiction_record: StoryRecord) -> None:
     )
     with pytest.raises(ValidationError, match="selected_hook"):
         StoryRecord.model_validate(payload)
+
+
+def test_hook_category_must_be_a_known_hook_type() -> None:
+    with pytest.raises(ValidationError):
+        HookOption(text="An opening line", category="vibes")
+
+
+def test_emotions_must_be_known_targets(fiction_record: StoryRecord) -> None:
+    payload = fiction_record.model_dump()
+    payload["emotions"] = ["nostalgia"]
+
+    with pytest.raises(ValidationError):
+        StoryRecord.model_validate(payload)
+
+
+def test_story_structure_is_optional_and_typed(fiction_record: StoryRecord) -> None:
+    assert fiction_record.story_structure is None
+
+    payload = fiction_record.model_dump()
+    payload["story_structure"] = "curiosity-discovery-reveal"
+    assert (
+        StoryRecord.model_validate(payload).story_structure
+        == StoryStructure.CURIOSITY_DISCOVERY_REVEAL
+    )
+
+    payload["story_structure"] = "hook-story-vibes"
+    with pytest.raises(ValidationError):
+        StoryRecord.model_validate(payload)
+
+
+def test_story_mode_and_structure_vary_independently() -> None:
+    # A survival story can be told with either skeleton; the two axes must not
+    # collapse into one another.
+    base = {
+        "story_id": "STORY-5",
+        "title": "A documented rescue",
+        "premise": "A hiker is recovered after three days.",
+        "classification": "nonfiction",
+        "content_pillar": "unbelievable-survival",
+        "story_mode": "survival",
+        "emotions": ["relief"],
+        "verification_status": "verified",
+    }
+
+    escalating = StoryRecord.model_validate(
+        base | {"story_structure": "hook-escalation-payoff"}
+    )
+    calm = StoryRecord.model_validate(base | {"story_structure": "calm-tension-relief"})
+
+    assert escalating.story_mode == calm.story_mode
+    assert escalating.story_structure != calm.story_structure

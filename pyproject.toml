@@ -27,3 +27,6 @@ packages = ["src/channel2"]
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+# Import from the source tree directly so a clean checkout can run the suite
+# without an editable install step.
+pythonpath = ["src"]

@@ -276,15 +276,24 @@ Quality → Testing → Data → Learning → Scale
 ## 14. Phase 1 Foundation
 
 The repository now includes a local, testable Python foundation. It validates
-structured story records, loads the documented content pillars, hook types, and
-story modes, and enforces ordered pipeline stage gates.
+structured story records, enforces ordered pipeline stage gates, and holds the
+project's controlled vocabulary in a single place: the enums in
+`src/channel2/models/vocabulary.py` must match `knowledge/catalog.yaml` entry
+for entry, and each catalog entry cites the design-document section that
+defines it. A term cannot enter the code without a written definition.
 
-Install and verify it with Python 3.11 or newer:
+Run the tests with Python 3.11 or newer. The suite reads the source tree
+directly, so no install step is required:
+
+```bash
+python -m pytest
+```
+
+To use the CLI, install the package first:
 
 ```bash
 python -m pip install -e ".[dev]"
-python -m pytest
-python src/main.py
+python -m channel2.main
 python -m channel2.main --status
 ```
 

@@ -1,12 +1,21 @@
 """Load and validate the versioned Channel 2 knowledge catalog."""
 
+from enum import StrEnum
 from pathlib import Path
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
 
 from channel2.config import load_settings
-from channel2.models import ContentPillar, StoryMode
+from channel2.models.story import ContentPillar, StoryMode
+from channel2.models.vocabulary import (
+    Decision,
+    EmotionalTarget,
+    HookType,
+    StoryStructure,
+    Tempo,
+    VisualFormat,
+)
 
 
 class KnowledgeEntry(BaseModel):
@@ -25,10 +34,29 @@ class KnowledgeCatalog(BaseModel):
     content_pillars: list[KnowledgeEntry]
     hook_types: list[KnowledgeEntry]
     story_modes: list[KnowledgeEntry]
+    story_structures: list[KnowledgeEntry]
+    visual_formats: list[KnowledgeEntry]
+    tempos: list[KnowledgeEntry]
+    emotional_targets: list[KnowledgeEntry]
+    decisions: list[KnowledgeEntry]
 
     def entry_ids(self, collection: str) -> set[str]:
         entries: list[KnowledgeEntry] = getattr(self, collection)
         return {entry.id for entry in entries}
+
+
+# Each documented collection must match exactly one code enum. A term cannot be
+# added to either side alone.
+COLLECTION_ENUMS: dict[str, type[StrEnum]] = {
+    "content_pillars": ContentPillar,
+    "hook_types": HookType,
+    "story_modes": StoryMode,
+    "story_structures": StoryStructure,
+    "visual_formats": VisualFormat,
+    "tempos": Tempo,
+    "emotional_targets": EmotionalTarget,
+    "decisions": Decision,
+}
 
 
 def _ensure_unique(entries: list[KnowledgeEntry], collection: str) -> None:
@@ -44,14 +72,17 @@ def load_catalog(path: Path | None = None) -> KnowledgeCatalog:
     raw = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
     catalog = KnowledgeCatalog.model_validate(raw)
 
-    for collection in ("content_pillars", "hook_types", "story_modes"):
+    for collection, enum_type in COLLECTION_ENUMS.items():
         _ensure_unique(getattr(catalog, collection), collection)
-
-    expected_pillars = {item.value for item in ContentPillar}
-    expected_modes = {item.value for item in StoryMode}
-    if catalog.entry_ids("content_pillars") != expected_pillars:
-        raise ValueError("content pillar catalog does not match ContentPillar enum")
-    if catalog.entry_ids("story_modes") != expected_modes:
-        raise ValueError("story mode catalog does not match StoryMode enum")
+        documented = catalog.entry_ids(collection)
+        defined = {item.value for item in enum_type}
+        if documented != defined:
+            undocumented = sorted(defined - documented)
+            unrecognized = sorted(documented - defined)
+            raise ValueError(
+                f"{collection} does not match {enum_type.__name__}: "
+                f"missing from catalog {undocumented}, "
+                f"missing from enum {unrecognized}"
+            )
 
     return catalog

@@ -1,6 +1,8 @@
-version: 1
+version: 2
 
 # Structured extracts only. The markdown files remain the source of truth.
+# Every entry must cite the section that defines it; knowledge.loader enforces
+# that these collections stay identical to the enums in models/vocabulary.py.
 content_pillars:
   - id: human-stories
     name: Human Stories
@@ -94,3 +96,151 @@ story_modes:
     name: Calm / Relief
     description: Curiosity or tension develops toward relief or peace.
     source: story-engine.md#mode-g--calm--relief
+
+# Narrative skeleton, independent of the emotional register in story_modes.
+story_structures:
+  - id: hook-story-twist
+    name: Hook -> Story -> Twist
+    description: Opens, tells the situation, then reverses the expected meaning.
+    source: README.md#6-storytelling
+  - id: hook-escalation-payoff
+    name: Hook -> Escalation -> Payoff
+    description: Opens and raises stakes continuously toward a direct reward.
+    source: README.md#6-storytelling
+  - id: question-investigation-answer
+    name: Question -> Investigation -> Answer
+    description: Poses a question, gathers evidence, then answers it.
+    source: README.md#6-storytelling
+  - id: situation-conflict-resolution
+    name: Situation -> Conflict -> Resolution
+    description: Establishes a situation, introduces conflict, then resolves it.
+    source: README.md#6-storytelling
+  - id: curiosity-discovery-reveal
+    name: Curiosity -> Discovery -> Reveal
+    description: Builds an information gap, discovers clues, then reveals.
+    source: README.md#6-storytelling
+  - id: setup-event-reaction
+    name: Setup -> Unexpected Event -> Reaction
+    description: Establishes normality, breaks it, then shows the response.
+    source: README.md#6-storytelling
+  - id: problem-transformation-satisfaction
+    name: Problem -> Transformation -> Satisfaction
+    description: Shows a problem, the change process, then the satisfying result.
+    source: README.md#6-storytelling
+  - id: calm-tension-relief
+    name: Calm -> Tension -> Relief
+    description: Starts calm, introduces tension, then releases it.
+    source: README.md#6-storytelling
+
+visual_formats:
+  - id: roblox
+    name: Roblox
+    description: Story staged and captured inside Roblox.
+    source: README.md#4-visual-philosophy
+  - id: real-footage
+    name: Real Footage
+    description: Authentic real-world video of the subject or situation.
+    source: README.md#4-visual-philosophy
+  - id: cinematic
+    name: Cinematic
+    description: Deliberately composed and graded footage with filmic treatment.
+    source: README.md#4-visual-philosophy
+  - id: ai-generated
+    name: AI Generated
+    description: Model-generated imagery, used only when it serves the story.
+    source: README.md#4-visual-philosophy
+  - id: animation
+    name: Animation
+    description: Illustrated or motion-graphic sequences.
+    source: README.md#4-visual-philosophy
+  - id: gameplay
+    name: Gameplay
+    description: Captured play from a game other than Roblox.
+    source: README.md#4-visual-philosophy
+  - id: nature
+    name: Nature
+    description: Environmental and landscape imagery.
+    source: README.md#4-visual-philosophy
+  - id: animal
+    name: Animal
+    description: Animal-focused footage.
+    source: README.md#4-visual-philosophy
+
+# Shared by narration pacing and visual cut rhythm.
+tempos:
+  - id: slow
+    name: Slow
+    description: Deliberate rate that gives each beat room to register.
+    source: voice-narration-system.md#5-narration-pacing
+  - id: moderate
+    name: Moderate
+    description: Conversational rate suited to most storytelling.
+    source: voice-narration-system.md#5-narration-pacing
+  - id: fast
+    name: Fast
+    description: High-energy rate that compresses time between beats.
+    source: voice-narration-system.md#5-narration-pacing
+  - id: variable
+    name: Variable
+    description: Rate deliberately changes within a single video.
+    source: voice-narration-system.md#8-voice-variation
+
+emotional_targets:
+  - id: amusement
+    name: Amusement
+    description: Intended reaction is laughter or entertainment.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: shock
+    name: Shock
+    description: Intended reaction is disbelief at an extreme outcome.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: emotion
+    name: Emotion
+    description: Intended reaction is being moved or touched.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: curiosity
+    name: Curiosity
+    description: Intended reaction is needing an unanswered question resolved.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: surprise
+    name: Surprise
+    description: Intended reaction is an unexpected turn.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: relief
+    name: Relief
+    description: Intended reaction is release after tension.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: gratitude
+    name: Gratitude
+    description: Intended reaction is thankfulness or perspective.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: warmth
+    name: Warmth
+    description: Intended reaction is tenderness or affection.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+  - id: satisfaction
+    name: Satisfaction
+    description: Intended reaction is completion or resolution.
+    source: analytics-experimentation-system.md#8-emotional-response-analysis
+
+decisions:
+  - id: push
+    name: Push
+    description: Evidence supports increasing testing and production.
+    source: analytics-experimentation-system.md#17-push--pull-decisions
+  - id: maintain
+    name: Maintain
+    description: Keep producing while collecting more evidence.
+    source: analytics-experimentation-system.md#17-push--pull-decisions
+  - id: pull
+    name: Pull
+    description: Repeated testing suggests reducing or pausing the format.
+    source: analytics-experimentation-system.md#17-push--pull-decisions
+  - id: rework
+    name: Rework
+    description: Keep the concept but change one specific weak element.
+    source: analytics-experimentation-system.md#17-push--pull-decisions
+  - id: no-decision
+    name: No Decision
+    description: Sample is too small to justify any decision yet.
+    source: analytics-experimentation-system.md#16-sample-size

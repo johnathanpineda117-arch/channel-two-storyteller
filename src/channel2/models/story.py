@@ -4,6 +4,8 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
+from channel2.models.vocabulary import EmotionalTarget, HookType, StoryStructure
+
 
 class StoryClassification(StrEnum):
     NONFICTION = "nonfiction"
@@ -79,7 +81,7 @@ class HookOption(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     text: str = Field(min_length=1)
-    category: str = Field(min_length=1)
+    category: HookType
     clickbait_risk: Confidence = Confidence.LOW
 
 
@@ -95,7 +97,8 @@ class StoryRecord(BaseModel):
     classification: StoryClassification
     content_pillar: ContentPillar
     story_mode: StoryMode
-    emotions: list[str] = Field(min_length=1)
+    story_structure: StoryStructure | None = None
+    emotions: list[EmotionalTarget] = Field(min_length=1)
 
     claims: list[Claim] = Field(default_factory=list)
     sources: list[Source] = Field(default_factory=list)
