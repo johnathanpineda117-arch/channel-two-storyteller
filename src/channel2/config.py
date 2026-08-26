@@ -10,6 +10,7 @@ class Settings:
 
     repository_root: Path
     knowledge_path: Path
+    channels_path: Path
     data_path: Path
 
 
@@ -20,9 +21,9 @@ def _package_root() -> Path:
 def load_settings(repository_root: Path | None = None) -> Settings:
     """Resolve local project paths without reading environment secrets.
 
-    Packaged resources (the knowledge catalog) resolve from the installed
-    package. Workspace paths (local data) resolve from the repository when
-    running from a source checkout.
+    Packaged resources (the knowledge catalog and channel registry) resolve
+    from the installed package. Workspace paths (local data) resolve from the
+    repository when running from a source checkout.
     """
 
     package_root = _package_root()
@@ -30,5 +31,6 @@ def load_settings(repository_root: Path | None = None) -> Settings:
     return Settings(
         repository_root=root,
         knowledge_path=package_root / "knowledge" / "catalog.yaml",
+        channels_path=package_root / "knowledge" / "channels.yaml",
         data_path=root / "data",
     )
