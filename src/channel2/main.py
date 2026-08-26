@@ -20,7 +20,6 @@ EXAMPLE_PROFILE: dict[str, Any] = {
     "classification": "nonfiction",
     "content_pillar": "unbelievable-survival",
     "story_mode": "survival",
-    "story_structure": "calm-tension-relief",
     "emotions": ["shock", "relief"],
     "verification_status": "unverified",
 }
@@ -76,6 +75,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         catalog = load_catalog()
+    except (OSError, ValueError) as error:
+        print(f"KNOWLEDGE CATALOG ERROR: {error}")
+        return 1
+
+    try:
         record = StoryRecord.model_validate(load_profile(args.input))
     except (OSError, json.JSONDecodeError, ValidationError, ValueError) as error:
         print(f"INVALID STORY PROFILE: {error}")

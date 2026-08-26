@@ -23,6 +23,21 @@ def test_cli_rejects_invalid_profile(tmp_path, capsys) -> None:
     assert "INVALID STORY PROFILE" in capsys.readouterr().out
 
 
+def test_cli_does_not_report_missing_catalog_as_invalid_profile(
+    monkeypatch, capsys
+) -> None:
+    from channel2 import main as main_module
+
+    def missing_catalog():
+        raise FileNotFoundError("catalog.yaml")
+
+    monkeypatch.setattr(main_module, "load_catalog", missing_catalog)
+    assert main([]) == 1
+    output = capsys.readouterr().out
+    assert "KNOWLEDGE CATALOG ERROR" in output
+    assert "INVALID STORY PROFILE" not in output
+
+
 def test_status_command_is_explicit(capsys) -> None:
     assert main(["--status"]) == 0
     output = capsys.readouterr().out

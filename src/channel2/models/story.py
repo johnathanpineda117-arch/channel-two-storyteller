@@ -4,7 +4,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
-from channel2.models.vocabulary import EmotionalTarget, HookType, StoryStructure
+from channel2.models.vocabulary import EmotionalTarget, HookType
 
 
 class StoryClassification(StrEnum):
@@ -22,6 +22,15 @@ class ContentPillar(StrEnum):
 
 
 class StoryMode(StrEnum):
+    """Legacy hybrid taxonomy mixing genre and narrative skeleton.
+
+    Several values describe a sequence (twist, mystery-discovery,
+    transformation, calm-relief) rather than only an emotional register.
+    Decompose this enum before :class:`~channel2.models.vocabulary.StoryStructure`
+    becomes a first-class experimental variable. Do not invent a replacement
+    taxonomy here.
+    """
+
     TWIST = "twist"
     SURVIVAL = "survival"
     EMOTIONAL = "emotional"
@@ -97,7 +106,6 @@ class StoryRecord(BaseModel):
     classification: StoryClassification
     content_pillar: ContentPillar
     story_mode: StoryMode
-    story_structure: StoryStructure | None = None
     emotions: list[EmotionalTarget] = Field(min_length=1)
 
     claims: list[Claim] = Field(default_factory=list)

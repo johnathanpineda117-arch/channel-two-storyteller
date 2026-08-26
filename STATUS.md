@@ -71,11 +71,41 @@ Narration perspective was dropped rather than ported: it appeared only in the
 deleted JSON schema and is not defined in any design document. It should be
 reintroduced with a written definition when a `CreativeProfile` entity exists.
 
+`Tempo` historically existed twice in the deleted JSON schemas, as
+`narration_style.speed` and `editing_style.pacing`. The two value sets were
+identical (`slow`, `moderate`, `fast`, `variable`), so they were merged into
+one enum. The consuming field name will distinguish narration rate from cut
+rhythm when those models exist.
+
+## Staged vocabulary
+
+These enums live in `models/vocabulary.py` and the knowledge catalog so they
+cannot drift, but they are **not consumed by runtime models** yet:
+
+- `VisualFormat`
+- `Tempo`
+- `Decision`
+- `StoryStructure`
+
+They are staged for a future `CreativeProfile` (and related experiment
+records). `StoryStructure` is intentionally not a `StoryRecord` field.
+
+`StoryMode` is a legacy hybrid taxonomy: some values are genre (`survival`,
+`emotional`, `funny`) and others are narrative skeletons (`twist`,
+`mystery-discovery`, `transformation`, `calm-relief`). It must be decomposed
+before `StoryStructure` becomes a first-class experimental variable. This
+branch does not invent a replacement taxonomy.
+
 ## Known divergence
 
 `README.md` and `content-pillars.md` describe Channel 2 as a broad nonfiction
 storytelling channel. The channel is actually RobloxTales / Block Tales, which
 publishes fictional Roblox stories to a younger short-form audience and uses a
 different pillar taxonomy. The `ContentPillar` enum and the design documents
-still reflect the older description and are scheduled for revision alongside
-the introduction of per-channel pillar and verification policy.
+still reflect the older description.
+
+This is a known, accepted divergence on this branch. The next Channel
+milestone will move pillars and verification policy into per-channel
+configuration. No real Roblox data should be entered before that milestone
+lands; the current required pillar enum cannot represent the actual channel
+without misclassification.

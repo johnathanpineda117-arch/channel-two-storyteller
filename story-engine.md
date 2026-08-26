@@ -109,6 +109,12 @@ Avoid endings that feel abrupt or incomplete unless the intentional goal is to c
 
 Different pillars can use different versions of the Story Engine.
 
+These modes are a legacy hybrid taxonomy: several entries define a
+narrative sequence rather than only a genre or emotional register.
+`StoryStructure` is preserved in the knowledge catalog but is not a
+recordable experimental variable until this section is decomposed into
+separate axes. Do not treat mode and structure as independent factors yet.
+
 ---
 
 ## Mode A — Twist Story

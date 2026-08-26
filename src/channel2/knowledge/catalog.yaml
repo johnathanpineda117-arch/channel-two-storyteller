@@ -7,23 +7,23 @@ content_pillars:
   - id: human-stories
     name: Human Stories
     description: Human behavior, relationships, friendship, family, and social situations.
-    source: content-pillars.md#1-human-stories
+    source: content-pillars.md#1--human-stories
   - id: unbelievable-survival
     name: Unbelievable / Survival
     description: Verified survival, danger, animal encounters, and unusual real-world events.
-    source: content-pillars.md#2-unbelievable--survival
+    source: content-pillars.md#2--unbelievable--survival
   - id: funny-relatable
     name: Funny & Relatable
     description: Recognizable everyday situations that create humor and shared experience.
-    source: content-pillars.md#3-funny--relatable
+    source: content-pillars.md#3--funny--relatable
   - id: mystery-strange
     name: Mystery / Strange
     description: Verified mysteries, unusual facts, discoveries, and strange events.
-    source: content-pillars.md#4-mystery--strange
+    source: content-pillars.md#4--mystery--strange
   - id: satisfying-emotional
     name: Satisfying / Emotional
     description: Transformations and stories creating relief, warmth, or satisfaction.
-    source: content-pillars.md#5-satisfying--emotional
+    source: content-pillars.md#5--satisfying--emotional
 
 hook_types:
   - id: curiosity
@@ -97,7 +97,8 @@ story_modes:
     description: Curiosity or tension develops toward relief or peace.
     source: story-engine.md#mode-g--calm--relief
 
-# Narrative skeleton, independent of the emotional register in story_modes.
+# Narrative skeletons. Catalogued but not recorded on StoryRecord until
+# StoryMode is decomposed; the two currently overlap.
 story_structures:
   - id: hook-story-twist
     name: Hook -> Story -> Twist

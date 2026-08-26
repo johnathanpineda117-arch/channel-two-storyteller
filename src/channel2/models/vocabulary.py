@@ -30,10 +30,12 @@ class HookType(StrEnum):
 class StoryStructure(StrEnum):
     """Narrative skeleton of the story.
 
-    Distinct from :class:`~channel2.models.story.StoryMode`, which describes
-    the emotional register. A survival story (mode) can be told as
-    ``calm-tension-relief`` or ``hook-escalation-payoff`` (structure), and the
-    two axes need to vary independently to be testable.
+    Preserved in the controlled vocabulary and knowledge catalog. Not a
+    field on :class:`~channel2.models.story.StoryRecord`:
+    :class:`~channel2.models.story.StoryMode` is still a legacy hybrid that
+    already encodes some of these sequences, so recording both would make
+    experimental attribution impossible. Decompose StoryMode before this
+    becomes a first-class experimental variable.
     """
 
     HOOK_STORY_TWIST = "hook-story-twist"
