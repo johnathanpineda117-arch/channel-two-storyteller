@@ -4,6 +4,14 @@ This system protects Channel 2 from misinformation, misleading storytelling, unr
 
 The objective is to make stories entertaining while maintaining viewer trust.
 
+> **Verification is channel-scoped.** Everything below still applies, but
+> *whether* it applies to a given story is read from that story's channel
+> policy rather than from one global rule. A channel configured to require
+> verification enforces exactly the process described here, at the same
+> threshold. A fiction-only channel such as RobloxTales makes no factual claims
+> and so requires none of it — which is a property of that channel, not a
+> relaxation of this system. See [channels.md](channels.md).
+
 ---
 
 ## 1. Story Classification

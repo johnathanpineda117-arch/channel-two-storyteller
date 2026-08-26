@@ -1,5 +1,13 @@
 # Channel 2 — Storyteller
 
+> **Current direction:** Channel 2 is **RobloxTales / Block Tales**, publishing
+> fictional Roblox stories. Sections 1–13 below describe the original broad
+> nonfiction storytelling direction, which is **legacy** and is registered as
+> the retired `legacy-storyteller` channel. They are kept because they remain
+> the authoritative definition of the legacy vocabulary that historical records
+> use. See [channels.md](channels.md) for current channel configuration and
+> [STATUS.md](STATUS.md) for what is actually implemented.
+
 ## 1. Mission
 
 Build a scalable YouTube Shorts entertainment channel centered around short-form storytelling, memorable visual experiences, humor, curiosity, emotion, and satisfying payoffs.
@@ -307,3 +315,24 @@ This phase does not research, generate scripts or media, run media quality
 control, integrate external APIs, or publish. The automated state machine ends
 at `DRAFT_READY_FOR_HUMAN`; it deliberately has no publishing operation. See
 [STATUS.md](STATUS.md) for the capability ledger.
+
+## 15. Channel Isolation
+
+The channel is the isolation boundary. Every story record names its channel:
+
+```json
+{ "channel_id": "robloxtales", "content_pillar": "robux", "...": "..." }
+```
+
+A record is validated against the pillars and verification policy of the
+channel it names, and nothing else. A pillar belonging to another channel is
+rejected, a classification the channel does not publish is rejected, and a
+verification status inconsistent with the channel's policy is rejected. An
+unrecognised channel is rejected rather than defaulted.
+
+Retired channels (`active: false`) keep working for history: their records
+still load and validate against their own taxonomy and policy. What they cannot
+do is enter production, which the pipeline enforces.
+
+Channels are documented in [channels.md](channels.md) and encoded in
+`src/channel2/knowledge/channels.yaml`.

@@ -4,13 +4,21 @@ A channel is the isolation boundary for identity, content pillars, and
 verification policy. Nothing in this repository is allowed to assume a single
 global channel definition.
 
-Two rules follow from that:
+Three rules follow from that:
 
 1. A pillar term existing in the shared vocabulary grants no channel the right
    to use it. A channel may only use the pillars its own configuration lists.
+   A documented term may exist before any channel activates it.
 2. Whether a story requires verified research is read from the selected
    channel's policy. There is no global authenticity gate that applies to every
    channel.
+3. Every record names its channel through a required `channel_id`. There is no
+   default channel, and an unrecognised one is rejected rather than substituted.
+
+`active: false` means **retired from production**, not "this channel's history
+is invalid". A retired channel's records still load and validate against that
+channel's own taxonomy and policy, so they stay available to inspect, migrate,
+and reproduce. The pipeline is what refuses to advance them.
 
 The registered channels live in `src/channel2/knowledge/channels.yaml`. This
 document defines them; the YAML encodes them. Each pillar term named here is
