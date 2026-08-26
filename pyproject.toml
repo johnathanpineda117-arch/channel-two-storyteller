@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "channel2-content-agent"
+version = "0.1.0"
+description = "Foundation for the human-gated Channel 2 content agent"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2.0,<3",
+  "PyYAML>=6.0,<7",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<9",
+  "build>=1.0,<2",
+]
+
+[project.scripts]
+channel2 = "channel2.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/channel2"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+# Import from the source tree directly so a clean checkout can run the suite
+# without an editable install step.
+pythonpath = ["src"]

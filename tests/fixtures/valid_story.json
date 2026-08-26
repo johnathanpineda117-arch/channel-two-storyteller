@@ -1,0 +1,10 @@
+{
+  "story_id": "STORY-FIXTURE-1",
+  "title": "The door in the forest",
+  "premise": "A fictional hiker finds an impossible door.",
+  "classification": "fiction",
+  "content_pillar": "mystery-strange",
+  "story_mode": "mystery-discovery",
+  "emotions": ["curiosity"],
+  "verification_status": "not-required"
+}
