@@ -14,11 +14,35 @@ class StoryClassification(StrEnum):
 
 
 class ContentPillar(StrEnum):
+    """Every pillar term any channel may draw from, not one channel's taxonomy.
+
+    Membership here only means the term has a written definition. Which terms a
+    given channel may actually use is decided by that channel's configuration in
+    ``knowledge/channels.yaml``; see :mod:`channel2.models.channel`.
+    """
+
+    # Legacy broad-storyteller taxonomy, defined in content-pillars.md. Retained
+    # so historical records stay interpretable; reachable only from the inactive
+    # legacy channel.
     HUMAN_STORIES = "human-stories"
     UNBELIEVABLE_SURVIVAL = "unbelievable-survival"
     FUNNY_RELATABLE = "funny-relatable"
     MYSTERY_STRANGE = "mystery-strange"
     SATISFYING_EMOTIONAL = "satisfying-emotional"
+
+    # RobloxTales / Block Tales, defined in channels.md. Deliberately distinct
+    # ids from the legacy terms above: the legacy definitions describe verified
+    # real-world events, which is a different content model.
+    FRIENDSHIP = "friendship"
+    BETRAYAL = "betrayal"
+    MYSTERY = "mystery"
+    FEAR = "fear"
+    HUMOR = "humor"
+    ROBUX = "robux"
+    UNEXPECTED_TWIST = "unexpected-twist"
+    SURVIVAL = "survival"
+    SOCIAL_CONFLICT = "social-conflict"
+    PERSPECTIVE_CONFLICT = "perspective-conflict"
 
 
 class StoryMode(StrEnum):
