@@ -1,0 +1,23 @@
+{
+  "story_id": "STORY-IMPOSSIBLE-ELEVATOR",
+  "title": "Impossible Elevator",
+  "classification": "fiction",
+  "scene_length_seconds": 10,
+  "scenes": [
+    {
+      "id": "scene-01",
+      "program_in": 0.0,
+      "program_out": 10.0,
+      "status": "external-not-in-package",
+      "end_state": "Doors open. Distant avatar motionless. Whisper: Close the door. Display ???."
+    },
+    {
+      "id": "scene-02",
+      "program_in": 11.0,
+      "program_out": 21.0,
+      "duration": 10.0,
+      "path": "scenes/scene-02-seconds-11-20/scene-02-seconds-11-20.mp4",
+      "end_state": "Hand jammed in doors. Display 13. Ding. Cut to black."
+    }
+  ]
+}
